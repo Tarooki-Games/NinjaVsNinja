@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 06ad91c37d5b7dd419508e5fd9af70f2
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - D3 CuteBitMapism TypeA
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 51d5d614ef8c92944bc56ba4ea318d38, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
