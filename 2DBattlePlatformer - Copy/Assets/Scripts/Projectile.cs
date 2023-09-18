@@ -40,10 +40,6 @@ public class Projectile : MonoBehaviour
     {
         float normalX = collision.GetContact(0).normal.x;
         
-        
-        
-        //Debug.Log(normalX + "    " + Direction);
-
         ITakeDamage damageable = collision.collider.GetComponent<ITakeDamage>();
         if (damageable != null)
         {

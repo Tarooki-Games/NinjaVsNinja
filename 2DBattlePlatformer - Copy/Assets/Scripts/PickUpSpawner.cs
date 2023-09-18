@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class PickUpSpawner : MonoBehaviour
 {
-    [SerializeField] List<Transform> _spawnPoints;
+    [SerializeField] private Dictionary<int, Transform> _spawnPoints = new Dictionary<int, Transform>();
+    [SerializeField] private Dictionary<int, bool> _hasPickUpAtPointDictionary = new Dictionary<int, bool>();
 
     [SerializeField] Timer _mainTimer;
     
@@ -14,10 +15,21 @@ public class PickUpSpawner : MonoBehaviour
     
     void Awake()
     {
-        _spawnPoints = GetComponentsInChildren<Transform>().ToList();
-        _spawnPoints.Remove(_spawnPoints[0]);
-        _spawnPoints.Remove(_spawnPoints[0]);
+        Transform[] spawnPoints = GetComponentsInChildren<Transform>();
+        for (int i = 2; i < spawnPoints.Length; i++)
+        {
+            int key = i - 2;
+            _spawnPoints.Add(key, spawnPoints[i]);
+            _hasPickUpAtPointDictionary.Add(key, false);
+        }
 
+        // DEBUG CHECK for correct Transform Values stored at correct Key in Dictionary
+        for (int i = 0; i < _spawnPoints.Count; i++)
+        {
+            Debug.Log($"Key: {i} - Value: {_spawnPoints[i]}");
+            Debug.Log($"Key: {i} - Value: {_hasPickUpAtPointDictionary[i]}");
+        }
+        
         _mainTimer.OnIntervalAction += PickUpSpawnerOnInterval;
     }
 
@@ -28,25 +40,81 @@ public class PickUpSpawner : MonoBehaviour
 
     void PickUpSpawnerOnInterval()
     {
-        // Do Spawn Stuff
-        // Instantiate PFX
-        // Instantiate Pick Up Object Prefab
+        if (BattleManager.GetInstance().IsBattling)
+        {
+            if (ShouldSpawn())
+            {
+                // Do Spawn Stuff
+                // Instantiate PFX
+
+                // Instantiate Pick Up Object Prefab
+                Spawn();
+            }
+        }
+    }
+    
+    bool ShouldSpawn()
+    {
+        int pickUpsSpawned = 0;
+        for (int i = 0; i < _hasPickUpAtPointDictionary.Count; i++)
+        {
+            if (_hasPickUpAtPointDictionary[i])
+                pickUpsSpawned++;
+        }
+
+        Debug.Log($"pickUpsSpawned and in play: {pickUpsSpawned}");
+        
+        if (pickUpsSpawned < _hasPickUpAtPointDictionary.Count)
+            return true;
+        
+        return false;
     }
     
     void Spawn()
     {
-        Transform spawnPoint = ChooseSpawnPoint();
-
-        GameObject pickUp = ChoosePickUp();
-        Instantiate(pickUp, spawnPoint.position, transform.rotation);
+        int spawnPointKey = ChooseSpawnPoint();
+        GameObject pickUpGO = ChoosePickUp();
+        Transform spawnPoint = _spawnPoints[spawnPointKey];
+        
+        pickUpGO = Instantiate(pickUpGO, spawnPoint.position, transform.rotation);
+        
+        var pickUp = pickUpGO.GetComponent<PickUp>();
+        pickUp._spawnPointKey = spawnPointKey;
+        pickUp.OnPickUpCollected += PickUpSpawnerOnPickUpCollected;
     }
-    
-    Transform ChooseSpawnPoint()
+
+    void PickUpSpawnerOnPickUpCollected(int key)
+    {
+        Debug.Log($"PickUpSpawnerOnPickUpCollected() {key} - {false}");
+        
+        _hasPickUpAtPointDictionary[key] = false;
+        
+        for (int i = 0; i < _spawnPoints.Count; i++)
+        {
+            Debug.Log($"PickUpSpawnerOnPickUpCollected - Key: {i} - Value: {_hasPickUpAtPointDictionary[i]}");
+        }
+    }
+
+    int ChooseSpawnPoint()
     {
         // 'UnityEngine.' can be removed if NOT also, 'using System;'.
         int randomIndex = UnityEngine.Random.Range(0, _spawnPoints.Count);
-        var spawnPoint = _spawnPoints[randomIndex];
-        return spawnPoint;
+        
+        //Check if point has PickUp at location
+        while (_hasPickUpAtPointDictionary[randomIndex])
+            randomIndex = UnityEngine.Random.Range(0, _spawnPoints.Count);
+
+        // spawnPoint is clear for PickUp to be spawned here, set to true.
+        _hasPickUpAtPointDictionary[randomIndex] = true;
+        
+        //var spawnPoint = _spawnPoints[randomIndex];
+        
+        for (int i = 0; i < _hasPickUpAtPointDictionary.Count; i++)
+        {
+            Debug.Log($"Key: {i} - Value: {_hasPickUpAtPointDictionary[i]}");
+        }
+        
+        return randomIndex;
     }
 
     GameObject ChoosePickUp()

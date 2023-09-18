@@ -432,7 +432,7 @@ public class Player : MonoBehaviour, ITakeDamage
         if (_canTakeDamage)
         {
             //CombatScoreSystem.UpdatePoints(-1, PlayerNumber);
-            StartCoroutine(ReceiveDamage());
+            _ = StartCoroutine(ReceiveDamage());
         }
     }
 
@@ -446,7 +446,8 @@ public class Player : MonoBehaviour, ITakeDamage
         if (_heartCount <= 0)
         {
             Die();
-            
+            Debug.Log("Die()");
+            yield return new WaitForSeconds(5.0f);
             yield break;
         }
 
@@ -502,9 +503,12 @@ public class Player : MonoBehaviour, ITakeDamage
 
     public void RecoverHeart()
     {
-        _heartCount++;
-        // Update UI - Heart Containers
-        OnHeartRecovered?.Invoke(_playerNumber, _heartCount);
+        if (_heartCount < 3)
+        {
+            _heartCount++;
+            // Update UI - Heart Containers
+            OnHeartRecovered?.Invoke(_playerNumber, _heartCount);
+        }
     }
 
     [SerializeField] protected GameObject _coin;

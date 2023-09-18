@@ -193,7 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6468229858971499749}
   - component: {fileID: 6468229858971499739}
-  - component: {fileID: 6468229858971499736}
+  - component: {fileID: -6005970182231653765}
   m_Layer: 0
   m_Name: PickUp_Heart
   m_TagString: Untagged
@@ -233,7 +233,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.18
---- !u!114 &6468229858971499736
+--- !u!114 &-6005970182231653765
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -242,6 +242,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6468229858971499737}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bcdeea1ef82ace84e97db6b844d1d4f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 54a753669ea84dada9efe0673a9a1bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnPointKey: 0

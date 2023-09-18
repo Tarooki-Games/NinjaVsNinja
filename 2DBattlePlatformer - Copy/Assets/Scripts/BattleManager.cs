@@ -49,7 +49,7 @@ public class BattleManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            _isBattling = !_isBattling;
+            IsBattling = !IsBattling;
         }
     }
     
@@ -76,7 +76,7 @@ public class BattleManager : MonoBehaviour
     // WIN CONDITION 1: TIMER VICTORY!
     void BattleManagerOnRoundTimeUp()
     {
-        _isBattling = false;
+        IsBattling = false;
         
         int p1Score = PlayerPrefs.GetInt("Player1Score");
         int p2Score = PlayerPrefs.GetInt("Player2Score");
@@ -99,7 +99,7 @@ public class BattleManager : MonoBehaviour
     // WIN CONDITION 2: DEATH VICTORY!
      void BattleManagerOnPlayerDeath(int loser)
     {
-        _isBattling = false;
+        IsBattling = false;
         
         Debug.Log($"DEATH VICTORY! Player {loser} loses!");
         if (loser == 1)
@@ -111,7 +111,7 @@ public class BattleManager : MonoBehaviour
      // WIN CONDITION 3: COIN VICTORY!
     void BattleManagerOnCoinVictory(int winner)
     {
-        _isBattling = false;
+        IsBattling = false;
         
         Debug.Log($"COIN VICTORY! Player {winner} Wins!");
     }

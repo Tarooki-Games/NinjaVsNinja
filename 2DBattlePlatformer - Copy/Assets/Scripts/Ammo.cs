@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Ammo : MonoBehaviour
+public class Ammo : PickUp
 {
     [SerializeField] Projectile _projectilePrefab;
     [SerializeField] int _ammoCount = 0;
@@ -11,6 +11,8 @@ public class Ammo : MonoBehaviour
         var player = collision.GetComponent<Player>();
         if (player == null)
             return;
+        
+        PickUpCollected();
         
         GetComponent<Collider2D>().enabled = false;
         GetComponentInChildren<SpriteRenderer>().gameObject.SetActive(false);
@@ -23,7 +25,7 @@ public class Ammo : MonoBehaviour
         if (audioSource != null)
             audioSource.Play();
 
-        DestroyAfterDelay();
+        StartCoroutine(DestroyAfterDelay());
     }
 
     IEnumerator DestroyAfterDelay()

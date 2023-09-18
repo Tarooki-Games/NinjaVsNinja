@@ -94,6 +94,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
         _player = collision.collider.GetComponent<Player>();
         if (_player == null)
             return;
+        
         var contact = collision.contacts[0];
         Vector2 normal = contact.normal;
 
@@ -120,7 +121,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
             _coin.GetComponent<SpriteRenderer>().color = Color.white;
         }
 
-        Debug.Log("   " + transform.position);
+        //Debug.Log("   " + transform.position);
         if(!_isSlime)
             _ = Instantiate(_coin, transform, false);
         else

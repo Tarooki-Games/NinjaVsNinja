@@ -40,4 +40,10 @@ public class GameAssets : MonoBehaviour
     
     public GameObject _pfDeadFace1;
     public GameObject _pfDeadFace2;
+
+    public GameObject _pickUpSpawnFX;
+    public GameObject _playerHitFX;
+    public GameObject _fireballHitFX;
+    public GameObject _shurikenHitFX;
+    
 }

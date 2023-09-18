@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cd24f7adeec8dd4db252e709f791c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnPointKey: 0
   _projectilePrefab: {fileID: 197436859236555905, guid: b688c8ee1ee749d40ba87066feb49a78, type: 3}
   _ammoCount: 5
 --- !u!1 &6228364983902676314
