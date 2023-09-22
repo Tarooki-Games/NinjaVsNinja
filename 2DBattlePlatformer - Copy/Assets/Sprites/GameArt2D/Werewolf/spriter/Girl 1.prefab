@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5679122905889700908}
   - component: {fileID: 5360282689738195609}
-  - component: {fileID: 5545851828029974142}
+  - component: {fileID: 1176008756766883125}
   m_Layer: 0
   m_Name: RightHand (3)
   m_TagString: Untagged
@@ -117,7 +117,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5545851828029974142
+--- !u!114 &1176008756766883125
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1043,7 +1043,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9107676619335987501}
   - component: {fileID: 3787685182528524105}
-  - component: {fileID: 2063590316353175532}
+  - component: {fileID: 3178954133019793987}
   m_Layer: 0
   m_Name: Head (1)
   m_TagString: Untagged
@@ -1118,7 +1118,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2063590316353175532
+--- !u!114 &3178954133019793987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1431,7 +1431,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3634145384952585177}
   - component: {fileID: 3576124050653475701}
-  - component: {fileID: 4344814407018343444}
+  - component: {fileID: 344417990183303439}
   m_Layer: 0
   m_Name: LeftHand
   m_TagString: Untagged
@@ -1506,7 +1506,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4344814407018343444
+--- !u!114 &344417990183303439
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

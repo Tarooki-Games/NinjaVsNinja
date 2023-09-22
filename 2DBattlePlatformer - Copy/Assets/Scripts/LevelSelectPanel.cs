@@ -6,9 +6,10 @@ public class LevelSelectPanel : MonoBehaviour
 {
     void OnEnable()
     {
-        PlayerPrefs.SetInt("Level01_Unlocked", 1);
+        PlayerPrefs.SetInt("CoinBattle_Unlocked", 1);
+        //PlayerPrefs.SetInt("Level02_Unlocked", 1);
     }
-
+    
     public void OpenPanel() => GetComponent<Animator>().SetBool("Open", true);
     public void ClosePanel() => GetComponent<Animator>().SetBool("Open", false);
 }

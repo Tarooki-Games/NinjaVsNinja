@@ -5,6 +5,12 @@ using UnityEngine;
 public class AnimationEvents : MonoBehaviour
 {
     public event Action OnFightCalledInAnim;
+    public AudioSource mainMusic;
+
+    private void Awake()
+    {
+        mainMusic = GetComponentInChildren<AudioSource>();
+    }
 
     public void FightCalledInAnim()
     {
@@ -23,6 +29,11 @@ public class AnimationEvents : MonoBehaviour
         //Debug.Log(sound);
         Destroy(soundGO);
     }
-    
-    
+
+    public void PlayAudioSource()
+    {
+        if (mainMusic == null)
+            return;
+        mainMusic.Play();
+    }
 }

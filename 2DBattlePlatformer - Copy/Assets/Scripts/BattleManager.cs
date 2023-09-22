@@ -44,14 +44,6 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < _players.Count; i++)
             _players[i].OnPlayerDeath += BattleManagerOnPlayerDeath;
     }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            IsBattling = !IsBattling;
-        }
-    }
     
     void OnEnable()
     {

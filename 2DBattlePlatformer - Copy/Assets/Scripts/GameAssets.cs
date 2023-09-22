@@ -45,5 +45,8 @@ public class GameAssets : MonoBehaviour
     public GameObject _playerHitFX;
     public GameObject _fireballHitFX;
     public GameObject _shurikenHitFX;
-    
+
+    public GameObject _pfLockedLevel;
+    public GameObject _pfUnlockedLevel;
+
 }
