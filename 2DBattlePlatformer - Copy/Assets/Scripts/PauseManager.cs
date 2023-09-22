@@ -7,14 +7,26 @@ using UnityEngine.Rendering;
 public class PauseManager : MonoBehaviour
 {
     [SerializeField] GameObject _panel;
+
+    private bool canPause;
+    
     void Awake()
     {
         _panel.SetActive(false);
+        StartCoroutine(ActivatePause());
+        Debug.Log("CanPause = False");
+    }
+
+    IEnumerator ActivatePause()
+    {
+        yield return new WaitForSeconds(5.05f);
+        canPause = true;
+        Debug.Log("CanPause = True");
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (canPause && Input.GetKeyDown(KeyCode.P))
         {
             bool isBattling = BattleManager.GetInstance().IsBattling;
             

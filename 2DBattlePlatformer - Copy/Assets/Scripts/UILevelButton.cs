@@ -20,6 +20,7 @@ public class UILevelButton : MonoBehaviour
 
     private void Awake()
     {
+        PlayerPrefs.SetInt("Menu_Unlocked", 1);
         if (mainButton)
             PlayerPrefs.SetString("SelectedLevel", levelName);
         else
@@ -35,9 +36,19 @@ public class UILevelButton : MonoBehaviour
 
     public void LoadLevel()
     {
+        Debug.Log("LoadLevel()");
+        Time.timeScale = 1;
         SceneManager.LoadScene(PlayerPrefs.GetString("SelectedLevel"));
     }
 
+    public void LoadMenu()
+    {
+        Debug.Log("LoadMenu()");
+        Time.timeScale = 1;
+        PlayerPrefs.SetString("SelectedLevel", "Menu");
+        LoadLevel();
+    }
+    
     public void SetSelectedLevel()
     {
         if (PlayerPrefs.GetInt(levelName + "_Unlocked") == 1)

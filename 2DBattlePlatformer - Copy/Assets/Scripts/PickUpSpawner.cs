@@ -89,10 +89,10 @@ public class PickUpSpawner : MonoBehaviour
         
         _hasPickUpAtPointDictionary[key] = false;
         
-        for (int i = 0; i < _spawnPoints.Count; i++)
-        {
-            Debug.Log($"PickUpSpawnerOnPickUpCollected - Key: {i} - Value: {_hasPickUpAtPointDictionary[i]}");
-        }
+        // for (int i = 0; i < _spawnPoints.Count; i++)
+        // {
+        //     Debug.Log($"PickUpSpawnerOnPickUpCollected - Key: {i} - Value: {_hasPickUpAtPointDictionary[i]}");
+        // }
     }
 
     int ChooseSpawnPoint()
@@ -109,10 +109,10 @@ public class PickUpSpawner : MonoBehaviour
         
         //var spawnPoint = _spawnPoints[randomIndex];
         
-        for (int i = 0; i < _hasPickUpAtPointDictionary.Count; i++)
-        {
-            Debug.Log($"Key: {i} - Value: {_hasPickUpAtPointDictionary[i]}");
-        }
+        // for (int i = 0; i < _hasPickUpAtPointDictionary.Count; i++)
+        // {
+        //     Debug.Log($"Key: {i} - Value: {_hasPickUpAtPointDictionary[i]}");
+        // }
         
         return randomIndex;
     }

@@ -9,14 +9,14 @@ public class AnimationEvents : MonoBehaviour
 
     private void Awake()
     {
-        mainMusic = GetComponentInChildren<AudioSource>();
+        mainMusic = GetComponentInParent<AudioSource>();
     }
 
     public void FightCalledInAnim()
     {
         OnFightCalledInAnim?.Invoke();
     }
-    
+
     public void PlayAnimSound(SoundManager.Sound sound)
     {
         GameObject soundGO = SoundManager.PlaySoundAndCleanUp(sound);
@@ -36,4 +36,6 @@ public class AnimationEvents : MonoBehaviour
             return;
         mainMusic.Play();
     }
+
+    void DeactivateGameObject() => gameObject.SetActive(false);
 }
