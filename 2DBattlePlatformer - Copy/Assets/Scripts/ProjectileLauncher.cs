@@ -32,7 +32,7 @@ public class ProjectileLauncher : MonoBehaviour
     {
         if (BattleManager.GetInstance().IsBattling)
         {
-            if (_playerNumber == 1 && Input.GetAxis(_fireBtnName) < 0)
+            if (_playerNumber == 1 && Input.GetAxis(_fireBtnName) > 0)
             {
                 if (HasAmmo && CanFire)
                     HandleFire();

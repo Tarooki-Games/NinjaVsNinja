@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
@@ -11,6 +12,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] protected Animator[] _doorAnimators;
     [SerializeField] protected SpriteRenderer[] _doors;
 
+    [SerializeField] protected List<Enemy> _enemies;
+    
     Sprite _startSprite;
 
     // It worked without the virtual/override void Start aka the private void Start(), but it gave a weird suggestion
@@ -23,8 +26,10 @@ public class EnemySpawner : MonoBehaviour
         _enemyPrefabs = GameAssets.GetInstance()._enemyPrefabs;
         _doorAnimators = GetComponentsInChildren<Animator>();
 
+        BattleManager.GetInstance().OnWinConditionMet += EnemySpawnerOnWinConditionMet;
+
         //for (int i = 0; i < _doorAnimators.Length; i++)
-            //Debug.Log($"Name: {_doorAnimators[i]}   Index: {i} ");
+        //Debug.Log($"Name: {_doorAnimators[i]}   Index: {i} ");
 
         // Fills the array with all of the children components. The LAMBDA expression expressly ensures that only children are 
         // included and NOT the parent. The alternative is to just not use _spawnPoints[0] and set range from 1, see line 34, 
@@ -32,6 +37,15 @@ public class EnemySpawner : MonoBehaviour
         // because I or anyone else, wouldn't have to remember to account for the parent being in the array.
         // _spawnPoints = System.Array.FindAll(GetComponentsInChildren<Transform>(), child => child != this.transform);
         // _spawnPoints = GetComponentsInChildren<Transform>();        
+    }
+
+    void EnemySpawnerOnWinConditionMet(int winner, int winCondition)
+    {
+        for(int i = 0; i < _enemies.Count; i++)
+        {
+            Destroy(_enemies[i].gameObject);
+        }
+        _enemies.Clear();
     }
 
     void Update()
@@ -61,9 +75,10 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(1.29f);
             _doorAnimators[0].SetBool("OpenDoor", true);
             yield return new WaitForSeconds(0.45f);
-            Enemy enemy = ChooseEnemy();
+            Enemy enemy = Instantiate(ChooseEnemy(), spawnPoint.position, transform.rotation);
             enemy.Direction = -1;
-            Instantiate(enemy, spawnPoint.position, transform.rotation);
+            enemy.OnDestroy += EnemySpawnerOnDestroy;
+            _enemies.Add(enemy);
             yield return new WaitForSeconds(0.6f);
             _doorAnimators[0].SetBool("OpenDoor", false);
             _doors[0].sprite = _startSprite;
@@ -74,13 +89,20 @@ public class EnemySpawner : MonoBehaviour
             yield return new WaitForSeconds(1.29f);
             _doorAnimators[1].SetBool("OpenDoor", true);
             yield return new WaitForSeconds(0.45f);
-            Enemy enemy = ChooseEnemy();
+            Enemy enemy = Instantiate(ChooseEnemy(), spawnPoint.position, transform.rotation);
             enemy.Direction = 1;
-            Instantiate(enemy, spawnPoint.position, transform.rotation);
+            enemy.OnDestroy += EnemySpawnerOnDestroy;
+            _enemies.Add(enemy);
             yield return new WaitForSeconds(0.6f);
             _doorAnimators[1].SetBool("OpenDoor", false);
             _doors[1].sprite = _startSprite;
         }
+    }
+
+    private void EnemySpawnerOnDestroy(Enemy enemy)
+    {
+        _enemies.Remove(enemy);
+        Destroy(enemy.gameObject);
     }
 
     bool ShouldSpawn()

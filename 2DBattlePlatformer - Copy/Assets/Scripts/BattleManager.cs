@@ -24,6 +24,8 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] GameObject _playersGO;
     [SerializeField] List<Player> _players;
+
+    public event Action<int, int> OnWinConditionMet; 
     
     void Awake()
     {
@@ -76,35 +78,44 @@ public class BattleManager : MonoBehaviour
         // Check Count Count for Victory
         if (p1Score == p2Score)
         {
+            OnWinConditionMet?.Invoke(0, 1);
             Debug.Log("TIME UP! Round Drawn!");
         }
         else if (p1Score > p2Score)
         {
+            OnWinConditionMet?.Invoke(1, 1);
             Debug.Log("TIME UP! P1 Wins Round!");
         }
         else if (p2Score > p1Score)
         {
+            OnWinConditionMet?.Invoke(2, 1);
             Debug.Log("TIME UP! P2 Wins Round!");
         }
     }
     
     // WIN CONDITION 2: DEATH VICTORY!
-     void BattleManagerOnPlayerDeath(int loser)
+    void BattleManagerOnPlayerDeath(int loser)
     {
         IsBattling = false;
         
         Debug.Log($"DEATH VICTORY! Player {loser} loses!");
         if (loser == 1)
+        {
+            OnWinConditionMet?.Invoke(2, 2);
             Debug.Log($"DEATH VICTORY! Player 2 Wins!");
+        }
         else
+        {
+            OnWinConditionMet?.Invoke(1, 2);
             Debug.Log($"DEATH VICTORY! Player 1 Wins!");
+        }
     }
     
      // WIN CONDITION 3: COIN VICTORY!
     void BattleManagerOnCoinVictory(int winner)
     {
         IsBattling = false;
-        
+        OnWinConditionMet?.Invoke(winner, 3);
         Debug.Log($"COIN VICTORY! Player {winner} Wins!");
     }
 }

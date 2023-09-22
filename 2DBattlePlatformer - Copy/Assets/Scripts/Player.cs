@@ -47,8 +47,7 @@ public class Player : MonoBehaviour, ITakeDamage
     int _jumpsRemaining;
     float _fallTimer;
     float _jumpTimer;
-
-
+    
     float _groundCheckRadius = 0.2f;
     string _jumpButton;
     string _horizontalAxis;
@@ -67,6 +66,8 @@ public class Player : MonoBehaviour, ITakeDamage
     bool _canTakeDamage = true;
     
     bool _isAlive = true;
+
+    [SerializeField] Camera playerCam;
 
     [SerializeField] float _frequency = 10.0f;
     [SerializeField] float _timeStunned;
@@ -88,8 +89,9 @@ public class Player : MonoBehaviour, ITakeDamage
     private static readonly int Slide = Animator.StringToHash("Slide");
     private static readonly int HorizontalMovement = Animator.StringToHash("HorizontalMovement");
     private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
-    private static readonly int Death = Animator.StringToHash("Death");
     private static readonly int Hurt = Animator.StringToHash("Hurt");
+    private static readonly int Death = Animator.StringToHash("Death");
+    private static readonly int Victory = Animator.StringToHash("Victory");
 
     void Awake()
     {
@@ -99,12 +101,28 @@ public class Player : MonoBehaviour, ITakeDamage
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _audioSource = GetComponent<AudioSource>();
         _projLauncher = GetComponent<ProjectileLauncher>();
+        playerCam = GetComponentInChildren<Camera>(true);
         
         _coin = GameAssets.GetInstance()._coinFX;
         _slimyCoin = GameAssets.GetInstance()._slimyCoinFX;
 
         _stunTime = _timeStunned;
         _invulnerableTime = _timeInvulnerable;
+
+        BattleManager.GetInstance().OnWinConditionMet += PlayerOnWinConditionMet;
+    }
+
+    void PlayerOnWinConditionMet(int winner, int winCondition)
+    {
+        if (winner == 0) // Check for Draw
+            _animator.SetTrigger(Victory);
+        else if (_playerNumber == winner) // Check if this player is the Winner
+            _animator.SetTrigger(Victory); // Make Winner Dance
+        else
+            _animator.SetTrigger(Death); // Make Loser Fall
+        _rigidBody2D.velocity = Vector2.zero;
+        
+        playerCam.gameObject.SetActive(true);
     }
 
     void Start()
@@ -548,9 +566,10 @@ public class Player : MonoBehaviour, ITakeDamage
     
     void Die()
     {
+        _rigidBody2D.velocity = Vector2.zero;
+        
         _canTakeDamage = false;
         _canInput = false;
-        _animator.SetTrigger(Death);
         
         _isAlive = false;
         

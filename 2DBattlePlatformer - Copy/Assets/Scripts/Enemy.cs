@@ -24,6 +24,8 @@ public class Enemy : MonoBehaviour, ITakeDamage
 
     public float Direction { get => _direction; set => _direction = value; }
 
+    public event Action<Enemy> OnDestroy;
+
     protected virtual void Start()
     {
         _coin = GameAssets.GetInstance()._coinFX;
@@ -46,7 +48,9 @@ public class Enemy : MonoBehaviour, ITakeDamage
         }
 
         if (transform.position.x <= -18 || transform.position.x >= +18)
-            Destroy(gameObject);
+        {
+            OnDestroy?.Invoke(this);
+        }
     }
 
     protected virtual void EnvironmentScan(Transform sensor)
@@ -152,6 +156,6 @@ public class Enemy : MonoBehaviour, ITakeDamage
             spriteRenderer.color = new Color(1, 1, 1, alpha);
         }
         yield return new WaitForSeconds(3.0f);
-        Destroy(gameObject);
+        OnDestroy?.Invoke(this);
     }
 }

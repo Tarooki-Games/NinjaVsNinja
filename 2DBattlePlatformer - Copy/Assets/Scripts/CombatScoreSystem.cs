@@ -89,7 +89,7 @@ public class CombatScoreSystem : MonoBehaviour
 
         UpdateScoreTextUI();
 
-        if (_highScore >= 10)
+        if (points > 0 && _highScore >= 10)
             OnCoinVictory?.Invoke(playerNumber);
     }
 }
