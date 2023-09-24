@@ -22,6 +22,12 @@ public class Timer : MonoBehaviour
     void Start()
     {
         _uiText.text = $"{_duration}";
+        BattleManager.GetInstance().OnWinConditionMet += TimerOnWinConditionMet;
+    }
+
+    private void TimerOnWinConditionMet(int arg1, int arg2)
+    {
+        gameObject.SetActive(false);
     }
 
     public void Begin(int second)

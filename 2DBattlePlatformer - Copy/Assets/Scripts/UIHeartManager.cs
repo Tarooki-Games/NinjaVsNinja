@@ -31,6 +31,16 @@ public class UIHeartManager : MonoBehaviour
         _fullSprite = GameAssets.GetInstance()._pfHeartFull.GetComponent<Image>().sprite;
         _p1DeadFaceSprite = GameAssets.GetInstance()._pfDeadFace1.GetComponent<Image>().sprite;
         _p2DeadFaceSprite = GameAssets.GetInstance()._pfDeadFace2.GetComponent<Image>().sprite;
+
+        BattleManager.GetInstance().OnWinConditionMet += UIHeartManagerOnWinConditionMet;
+    }
+
+    private void UIHeartManagerOnWinConditionMet(int winner, int winCon)
+    {
+        if (winner == 1)
+            _faceImages[2].sprite = _p1DeadFaceSprite;
+        else if (winner == 2)
+            _faceImages[1].sprite = _p2DeadFaceSprite;
     }
 
     void UIHeartManagerOnHeartLost(int playerNumber, int currentHearts)

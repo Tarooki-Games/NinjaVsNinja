@@ -55,7 +55,7 @@ public class BattleManager : MonoBehaviour
     void BattleManagerOnFightCalledInAnim()
     {
         // Set IsBatttling to True
-        IsBattling = true;
+        _isBattling = true;
 
         foreach (Timer t in _timers)
         {
@@ -70,7 +70,7 @@ public class BattleManager : MonoBehaviour
     // WIN CONDITION 1: TIMER VICTORY!
     void BattleManagerOnRoundTimeUp()
     {
-        IsBattling = false;
+        _isBattling = false;
         
         int p1Score = PlayerPrefs.GetInt("Player1Score");
         int p2Score = PlayerPrefs.GetInt("Player2Score");
@@ -96,7 +96,7 @@ public class BattleManager : MonoBehaviour
     // WIN CONDITION 2: DEATH VICTORY!
     void BattleManagerOnPlayerDeath(int loser)
     {
-        IsBattling = false;
+        _isBattling = false;
         
         Debug.Log($"DEATH VICTORY! Player {loser} loses!");
         if (loser == 1)
@@ -114,7 +114,7 @@ public class BattleManager : MonoBehaviour
      // WIN CONDITION 3: COIN VICTORY!
     void BattleManagerOnCoinVictory(int winner)
     {
-        IsBattling = false;
+        _isBattling = false;
         OnWinConditionMet?.Invoke(winner, 3);
         Debug.Log($"COIN VICTORY! Player {winner} Wins!");
     }
