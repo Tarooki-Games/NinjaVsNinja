@@ -55,4 +55,12 @@ public class Collector : MonoBehaviour
             Gizmos.DrawLine(transform.position, collectible.transform.position);
         }
     }
+
+    private void OnDisable()
+    {
+        foreach (var collectible in _collectibles)
+        {
+            collectible.OnCollected -= Collectible_OnCollected;
+        }
+    }
 }

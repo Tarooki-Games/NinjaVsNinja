@@ -143,7 +143,7 @@ public class Enemy : MonoBehaviour, ITakeDamage
         spriteRenderer.sprite = _deadSprite;
         GetComponent<Animator>().enabled = false;
         GetComponent<Collider2D>().enabled = false;
-        GetComponent<AudioSource>().Play();
+        GetComponent<AudioSource>()?.Play();
         enabled = false; // this script.
         GetComponent<Rigidbody2D>().simulated = false;
 

@@ -1,4 +1,5 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,9 +39,9 @@ public class UIHeartManager : MonoBehaviour
     private void UIHeartManagerOnWinConditionMet(int winner, int winCon)
     {
         if (winner == 1)
-            _faceImages[2].sprite = _p1DeadFaceSprite;
+            _faceImages[2].sprite = _p2DeadFaceSprite;
         else if (winner == 2)
-            _faceImages[1].sprite = _p2DeadFaceSprite;
+            _faceImages[1].sprite = _p1DeadFaceSprite;
     }
 
     void UIHeartManagerOnHeartLost(int playerNumber, int currentHearts)
@@ -69,5 +70,16 @@ public class UIHeartManager : MonoBehaviour
             _p1HeartImages[currentHearts - 1].sprite = _fullSprite;
         else if (playerNumber == 2)
             _p2HeartImages[currentHearts - 1].sprite = _fullSprite;
+    }
+
+    private void OnDisable()
+    {
+        
+        for (int i = 1; i < _players.Length; i++)
+        {
+            _players[i].OnHeartLost -= UIHeartManagerOnHeartLost;
+            _players[i].OnHeartRecovered -= UIHeartManagerOnHeartRecovered;
+        }
+        BattleManager.GetInstance().OnWinConditionMet -= UIHeartManagerOnWinConditionMet;
     }
 }

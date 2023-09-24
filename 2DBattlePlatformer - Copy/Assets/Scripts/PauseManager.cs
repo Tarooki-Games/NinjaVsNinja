@@ -26,7 +26,7 @@ public class PauseManager : MonoBehaviour
 
     void Update()
     {
-        if (canPause && Input.GetKeyDown(KeyCode.P))
+        if (canPause && Input.GetButtonDown("Pause"))
         {
             bool isBattling = BattleManager.GetInstance().IsBattling;
             

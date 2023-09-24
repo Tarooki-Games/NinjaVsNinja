@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,6 +44,7 @@ public class EnemySpawner : MonoBehaviour
     {
         for(int i = 0; i < _enemies.Count; i++)
         {
+            _enemies[i].OnDestroy -= EnemySpawnerOnDestroy;
             Destroy(_enemies[i].gameObject);
         }
         _enemies.Clear();
@@ -102,6 +104,7 @@ public class EnemySpawner : MonoBehaviour
     private void EnemySpawnerOnDestroy(Enemy enemy)
     {
         _enemies.Remove(enemy);
+        enemy.OnDestroy -= EnemySpawnerOnDestroy;
         Destroy(enemy.gameObject);
     }
 
@@ -123,5 +126,10 @@ public class EnemySpawner : MonoBehaviour
         int randomIndex = UnityEngine.Random.Range(0, _enemyPrefabs.Length);
         var enemy = _enemyPrefabs[randomIndex];
         return enemy;
+    }
+
+    private void OnDisable()
+    {
+        BattleManager.GetInstance().OnWinConditionMet -= EnemySpawnerOnWinConditionMet;
     }
 }

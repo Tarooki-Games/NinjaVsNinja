@@ -25,14 +25,26 @@ public class BattleManager : MonoBehaviour
     [SerializeField] GameObject _playersGO;
     [SerializeField] List<Player> _players;
 
+    private AnimationEvents _animationEvents;
+    private CombatScoreSystem _combatScoreSystem;
+    
     public event Action<int, int> OnWinConditionMet; 
     
     void Awake()
     {
+        _animationEvents = GetComponentInChildren<AnimationEvents>();
+        _combatScoreSystem = GetComponentInChildren<CombatScoreSystem>();
+        
         _instance = this;
         
         _timers = GetComponentsInChildren<Timer>().ToList();
-        
+        _players = _playersGO.GetComponentsInChildren<Player>().ToList();
+
+        ResetScores();
+    }
+
+    void OnEnable()
+    {
         foreach (Timer t in _timers)
         {
             t._duration = _roundTime;
@@ -40,17 +52,31 @@ public class BattleManager : MonoBehaviour
                 t.OnRoundTimeUp += BattleManagerOnRoundTimeUp;
         }
         
-        CombatScoreSystem.GetInstance().OnCoinVictory += BattleManagerOnCoinVictory;
+        _combatScoreSystem.OnCoinVictory += BattleManagerOnCoinVictory;
 
-        _players = _playersGO.GetComponentsInChildren<Player>().ToList();
         for (int i = 0; i < _players.Count; i++)
             _players[i].OnPlayerDeath += BattleManagerOnPlayerDeath;
+        
+        _animationEvents.OnFightCalledInAnim += BattleManagerOnFightCalledInAnim;
     }
     
-    void OnEnable()
+    private void Update()
     {
-        GetComponentInChildren<AnimationEvents>().OnFightCalledInAnim += BattleManagerOnFightCalledInAnim;
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("P1Score: " + PlayerPrefs.GetInt("Player1Score"));
+            Debug.Log("P2Score: " + PlayerPrefs.GetInt("Player2Score"));
+            Debug.Log("HiScore: " + PlayerPrefs.GetInt("HighScore"));
+        }
     }
+
+    void ResetScores()
+    {
+        PlayerPrefs.SetInt("Player1Score", 0);
+        PlayerPrefs.SetInt("Player2Score", 0);
+        PlayerPrefs.SetInt("HighScore", 0);
+    }
+    
 
     void BattleManagerOnFightCalledInAnim()
     {
@@ -117,5 +143,21 @@ public class BattleManager : MonoBehaviour
         _isBattling = false;
         OnWinConditionMet?.Invoke(winner, 3);
         Debug.Log($"COIN VICTORY! Player {winner} Wins!");
+    }
+
+    void OnDisable()
+    {
+        _animationEvents.OnFightCalledInAnim -= BattleManagerOnFightCalledInAnim;
+        
+        foreach (Timer t in _timers)
+        {
+            if (t._mainTimer)
+                t.OnRoundTimeUp -= BattleManagerOnRoundTimeUp;
+        }
+        
+        _combatScoreSystem.OnCoinVictory -= BattleManagerOnCoinVictory;
+        
+        for (int i = 0; i < _players.Count; i++)
+            _players[i].OnPlayerDeath -= BattleManagerOnPlayerDeath;
     }
 }
