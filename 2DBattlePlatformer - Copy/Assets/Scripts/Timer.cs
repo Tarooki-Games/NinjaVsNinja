@@ -11,10 +11,23 @@ public class Timer : MonoBehaviour
     [SerializeField] TMP_Text _uiText;
     public bool _mainTimer;
 
-    public int _duration;
+    private int _duration;
+    public int Duration
+    {
+        get { return _duration; }   // get method
+        set { _duration = value; }  // set method
+    }
+    
     float _remainingDuration;
+    float timePassed = 0f;
+    
+    float _intervalTime = 3.6f;
 
-    [SerializeField] float _intervalTime;
+    public float IntervalTime
+    {
+        get => _intervalTime;
+        set => _intervalTime = value;
+    }
     
     public event Action OnRoundTimeUp;
     public event Action OnIntervalAction;
@@ -36,8 +49,6 @@ public class Timer : MonoBehaviour
         StartCoroutine(UpdateTimer());
     }
 
-    float timePassed = 0f;
-    
     IEnumerator UpdateTimer()
     {
         if (BattleManager.GetInstance().IsBattling)
@@ -45,7 +56,7 @@ public class Timer : MonoBehaviour
             while (_remainingDuration >= 0)
             {
                 timePassed += Time.deltaTime;
-                if (timePassed > _intervalTime)
+                if (_mainTimer && timePassed > _intervalTime)
                 {
                     OnIntervalAction?.Invoke();
 

@@ -10,8 +10,15 @@ public class CombatScoreSystem : MonoBehaviour
 
     static int _highScore;
     
-    static CombatScoreSystem _instance;
+    int _coinsToWin = 10;
 
+    public int CoinsToWin
+    {
+        get { return _coinsToWin; }
+        set => _coinsToWin = value;
+    }
+    
+    static CombatScoreSystem _instance;
     public static CombatScoreSystem GetInstance() => _instance;
     
     [SerializeField] TMP_Text[] _texts;
@@ -89,7 +96,7 @@ public class CombatScoreSystem : MonoBehaviour
 
         UpdateScoreTextUI();
 
-        if (points > 0 && _highScore >= 3)
+        if (points > 0 && _highScore >= _coinsToWin)
             OnCoinVictory?.Invoke(playerNumber);
     }
 }

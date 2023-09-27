@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -46,15 +44,15 @@ public class Collector : MonoBehaviour
         _collectibles = _collectibles.Distinct().ToList();
     }
 
-    void OnDrawGizmos()
-    {
-        foreach (var collectible in _collectibles)
-        {
-            Gizmos.color = UnityEditor.Selection.activeGameObject == gameObject ? Color.yellow : Color.gray;
-
-            Gizmos.DrawLine(transform.position, collectible.transform.position);
-        }
-    }
+    // void OnDrawGizmos()
+    // {
+    //     foreach (var collectible in _collectibles)
+    //     {
+    //         Gizmos.color = UnityEditor.Selection.activeGameObject == gameObject ? Color.yellow : Color.gray;
+    //
+    //         Gizmos.DrawLine(transform.position, collectible.transform.position);
+    //     }
+    // }
 
     private void OnDisable()
     {

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,6 +20,8 @@ public class BattleManager : MonoBehaviour
     
     List<Timer> _timers;
     [SerializeField] int _roundTime = 90;
+    [SerializeField] int _coinsToWin = 10;
+    [SerializeField] float _spawnInterval = 3.6f;
 
     [SerializeField] GameObject _playersGO;
     [SerializeField] List<Player> _players;
@@ -47,11 +48,15 @@ public class BattleManager : MonoBehaviour
     {
         foreach (Timer t in _timers)
         {
-            t._duration = _roundTime;
+            t.Duration = _roundTime;
             if (t._mainTimer)
+            {
                 t.OnRoundTimeUp += BattleManagerOnRoundTimeUp;
+                t.IntervalTime = _spawnInterval;
+            }
         }
-        
+
+        _combatScoreSystem.CoinsToWin = _coinsToWin;
         _combatScoreSystem.OnCoinVictory += BattleManagerOnCoinVictory;
 
         for (int i = 0; i < _players.Count; i++)
